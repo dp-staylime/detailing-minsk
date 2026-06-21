@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сравнение детейлинг центров — Geely Monjaro</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #181c26;
+    --surface2: #1f2435;
+    --border: #2a3050;
+    --accent: #4f8ef7;
+    --accent2: #7dd3a8;
+    --warn: #f4b942;
+    --muted: #6b7a99;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --yes: #4ade80;
+    --no: #f87171;
+    --font: 'Inter', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 13px;
+    line-height: 1.5;
+    padding: 24px 16px 48px;
+  }
+
+  header {
+    margin-bottom: 28px;
+  }
+  header h1 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    color: #fff;
+  }
+  header p {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 4px;
+  }
+
+  .legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1100px;
+  }
+
+  thead tr {
+    background: var(--surface2);
+  }
+
+  th {
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  tbody tr {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--surface2); }
+
+  td {
+    padding: 10px 12px;
+    vertical-align: top;
+    border-right: 1px solid var(--border);
+  }
+  td:last-child { border-right: none; }
+
+  .center-name {
+    font-weight: 600;
+    color: #fff;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .instagram {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .price {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .price-note {
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+  .price-combo {
+    font-size: 11px;
+    color: var(--accent2);
+    margin-top: 4px;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .tag-film { background: rgba(79,142,247,0.15); color: var(--accent); }
+  .tag-anticor { background: rgba(125,211,168,0.15); color: var(--accent2); }
+
+  ul.items {
+    list-style: none;
+    padding: 0;
+  }
+  ul.items li {
+    font-size: 11px;
+    color: var(--text-dim);
+    padding: 1px 0;
+  }
+  ul.items li::before {
+    content: '·';
+    color: var(--muted);
+    margin-right: 5px;
+  }
+
+  .yes-icon { color: var(--yes); font-weight: 700; }
+  .no-icon { color: var(--no); }
+  .unk-icon { color: var(--muted); }
+
+  .rating {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .rating-score {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--warn);
+  }
+  .rating-count {
+    font-size: 10px;
+    color: var(--text-dim);
+  }
+  .no-reviews {
+    font-size: 11px;
+    color: var(--no);
+  }
+
+  .location {
+    font-size: 11px;
+    color: var(--text-dim);
+    line-height: 1.4;
+  }
+
+  .guarantee {
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-top: 4px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 4px;
+    padding: 3px 6px;
+    display: inline-block;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 4px;
+    margin-top: 8px;
+  }
+  .section-label:first-child { margin-top: 0; }
+
+  .highlight {
+    background: rgba(79,142,247,0.08);
+    border-left: 2px solid var(--accent);
+  }
+
+  .warn-row td:first-child {
+    border-left: 2px solid var(--warn);
+  }
+
+  .chip {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 600;
+    margin-right: 4px;
+    margin-top: 2px;
+  }
+  .chip-new { background: rgba(125,211,168,0.2); color: var(--accent2); }
+  .chip-warn { background: rgba(244,185,66,0.2); color: var(--warn); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Детейлинг центры — Geely Monjaro 2026</h1>
+  <p>Сравнение по антикору, пленке и доп. услугам · Минск · BYN</p>
+</header>
+
+<div class="legend">
+  <div class="legend-item"><div class="dot" style="background:var(--yes)"></div> Да</div>
+  <div class="legend-item"><div class="dot" style="background:var(--no)"></div> Нет / не подтверждено</div>
+  <div class="legend-item"><div class="dot" style="background:var(--warn)"></div> Требует уточнения</div>
+  <div class="legend-item"><div class="dot" style="background:var(--muted)"></div> Нет данных</div>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+  <th style="min-width:130px">Центр</th>
+  <th style="min-width:110px">Антикор</th>
+  <th style="min-width:160px">Оклейка плёнкой</th>
+  <th style="min-width:200px">Состав пакетов оклейки</th>
+  <th style="min-width:100px">Плёнка</th>
+  <th style="min-width:200px">Антикор — состав работ</th>
+  <th style="min-width:90px">Рейтинг Я.Карты</th>
+  <th style="min-width:110px">Адрес</th>
+  <th style="min-width:70px">Брызговики</th>
+  <th style="min-width:70px">Сетка радиатора</th>
+</tr>
+</thead>
+<tbody>
+
+<!-- vailminsk -->
+<tr class="highlight">
+  <td>
+    <div class="center-name">vailminsk</div>
+    <div class="instagram">vailauto.by</div>
+  </td>
+  <td>
+    <div class="price">1 250 ₽</div>
+    <div class="price-combo">−10% при заказе с оклейкой целиком → 1 125</div>
+    <div class="guarantee">Гарантия 3 года</div>
+    <div class="price-note">Рассрочка 1–5 мес.</div>
+  </td>
+  <td>
+    <div class="price">Мини: 1 210</div>
+    <div class="price">Стандарт: 1 650</div>
+    <div class="price">Стандарт+: 2 310</div>
+    <div class="price-note">Целиком глянец: 7 950</div>
+    <div class="price-note">Целиком матовая: 8 650</div>
+    <div class="price-note">Антикор включён в цену со скидкой 5%</div>
+  </td>
+  <td>
+    <div class="section-label">Мини (1 210)</div>
+    <ul class="items"><li>Капот целиком</li><li>Фары + ПТФ</li><li>Полоса над лобовым</li><li>Антиманикюр</li><li>Канты двери</li></ul>
+    <div class="section-label">Стандарт (1 650)</div>
+    <ul class="items"><li>+ Передние крылья</li><li>+ Стойки лобового</li><li>+ Пороги</li><li>+ Зона выгрузки</li></ul>
+    <div class="section-label">Стандарт+ (2 310)</div>
+    <ul class="items"><li>+ Бампер передний</li><li>+ Зеркала</li></ul>
+  </td>
+  <td>Spectroll<br><span class="guarantee">Условия не указаны</span></td>
+  <td>
+    <ul class="items">
+      <li>Демонтаж защит, 4 подкрылков, расширителей арок, накладок порогов и дверей</li>
+      <li>Приопускание выхлопа, демонтаж теплоэкранов</li>
+      <li>Мойка щелочью + продувка + сушка тепловыми пушками</li>
+      <li>Обезжиривание</li>
+      <li>Днище + арки + скрытые полости</li>
+      <li>Капот, двери, крышка баг. (через сливные отв.)</li>
+      <li>Подкапотное пространство</li>
+      <li>Финальная мойка 3 фазы + антибитум</li>
+    </ul>
+    <div class="guarantee">Dinitrol 4942 / LT / воск</div>
+  </td>
+  <td>
+    <div class="rating">
+      <div class="rating-score">—</div>
+      <div class="rating-count">нет данных</div>
+    </div>
+  </td>
+  <td class="location">Минск</td>
+  <td><span class="unk-icon">?</span></td>
+  <td><span class="yes-icon">✓</span> <span class="price-note">доп. услуга</span></td>
+</tr>
+
+<!-- antikor_pro.by -->
+<tr>
+  <td>
+    <div class="center-name">antikor_pro.by</div>
+  </td>
+  <td>
+    <div class="price">1 600 ₽</div>
+    <div class="price-note">2–3 рабочих дня</div>
+    <div class="guarantee">Lotos + Dinitrol</div>
+  </td>
+  <td>
+    <div class="price">220 ₽</div>
+    <div class="price-note">Только стыки с пластиком</div>
+  </td>
+  <td>
+    <ul class="items">
+      <li>Молдинги арок, дверей, стыки бамперов</li>
+      <li>Места стыков пластика с кузовом</li>
+    </ul>
+    <div class="price-note">Арки в 2 слоя: 650</div>
+    <div class="price-note">Двери в 3 слоя: 1 200</div>
+  </td>
+  <td><span class="unk-icon">—</span></td>
+  <td>
+    <ul class="items">
+      <li>Полный антикор кузова</li>
+    </ul>
+    <div class="guarantee">Lotos и Dinitrol</div>
+  </td>
+  <td>
+    <div class="rating-score">—</div>
+    <div class="rating-count">нет данных</div>
+  </td>
+  <td class="location">Минск</td>
+  <td><span class="unk-icon">?</span></td>
+  <td><span class="unk-icon">?</span></td>
+</tr>
+
+<!-- vinylstudio.by -->
+<tr>
+  <td>
+    <div class="center-name">vinylstudio.by</div>
+  </td>
+  <td>
+    <div class="price">1 200 ₽</div>
+    <div class="price-note">Через партнёра «Евромеханика» (офиц. дистрибьютор Dinitrol)</div>
+    <div class="price-note">Доставка на лафете включена</div>
+  </td>
+  <td>
+    <div class="price">Компл. 3.1: 1 400</div>
+    <div class="price">Компл. 3.2: 1 700</div>
+    <div class="price">Компл. 6: 3 100</div>
+    <div class="price-note">Целиком: 10 500</div>
+    <div class="guarantee">Гарантия плёнка 5л / работа 3г</div>
+  </td>
+  <td>
+    <div class="section-label">Комплект 3.1 (1 400)</div>
+    <ul class="items"><li>Капот целиком</li><li>Крылья частично</li><li>Полоса над лобовым</li><li>Стойки лобового</li><li>Внутренние пороги</li><li>Полка заднего бампера</li><li>Фары + ПТФ</li><li>Антиманикюр</li><li>Торцы дверей</li></ul>
+    <div class="section-label">Комплект 3.2 (1 700)</div>
+    <ul class="items"><li>Крылья целиком</li><li>+ остальное как 3.1</li></ul>
+    <div class="section-label">Комплект 6 (3 100)</div>
+    <ul class="items"><li>Вся передняя часть с бампером и зеркалами</li></ul>
+    <div class="section-label">Целиком (10 500)</div>
+    <ul class="items"><li>Весь кузов + оптика + пороги + стоки</li><li>Без панорамы и молдингов</li></ul>
+  </td>
+  <td>Spectroll Premium<br>210 мкм</td>
+  <td>
+    <ul class="items">
+      <li>Весь кузов, все скрытые полости</li>
+      <li>Выполняет партнёр antikor.dinitrol.by</li>
+    </ul>
+    <div class="guarantee">Dinitrol (официальный)</div>
+  </td>
+  <td>
+    <div class="rating-score">—</div>
+    <div class="rating-count">нет данных</div>
+  </td>
+  <td class="location">Минск</td>
+  <td><span class="unk-icon">?</span></td>
+  <td><span class="unk-icon">?</span></td>
+</tr>
+
+<!-- mxauto.by -->
+<tr>
+  <td>
+    <div class="center-name">mxauto.by</div>
+  </td>
+  <td>
+    <div class="price">950 ₽</div>
+    <div class="price-note">1,5 дня</div>
+  </td>
+  <td>
+    <div class="price">Оптима: 3 000</div>
+    <div class="price-note">Целиком глянец: 9 500</div>
+    <div class="price-note">+ сетка: 300 (итого 3 300)</div>
+    <div class="price-note">Срок оклейки 3 дня / целиком 5–6 дней</div>
+  </td>
+  <td>
+    <div class="section-label">Оптима (3 000)</div>
+    <ul class="items">
+      <li>Капот целиком</li><li>Передние крылья целиком</li><li>Передний бампер</li>
+      <li>Фары</li><li>Полоса на крышу</li><li>Передние стойки лобового</li>
+      <li>Зеркала</li><li>Канты дверей + под ручками</li>
+      <li>Зона выгрузки</li><li>Внутренние пороги</li>
+    </ul>
+  </td>
+  <td><span class="unk-icon">не указана</span></td>
+  <td>
+    <ul class="items">
+      <li>Днище + арки (Dinitrol 4941)</li>
+      <li>Скрытые полости: капот, крылья, двери, лонжероны, крышка баг. (Dinitrol ML)</li>
+    </ul>
+    <div class="guarantee">Dinitrol 4941 + Dinitrol ML</div>
+  </td>
+  <td>
+    <div class="rating-score">—</div>
+    <div class="rating-count">нет данных</div>
+  </td>
+  <td class="location">Минск</td>
+  <td><span class="unk-icon">?</span></td>
+  <td><span class="yes-icon">✓</span> <span class="price-note">300 BYN</span></td>
+</tr>
+
+<!-- wrapex.by -->
+<tr class="warn-row">
+  <td>
+    <div class="center-name">wrapex.by</div>
+    <span class="chip chip-warn">⚠ нет отзывов</span>
+  </td>
+  <td>
+    <div class="price">850 ₽</div>
+    <div class="price-note">(при заказе с оклейкой, вместо 1 050)</div>
+    <div class="guarantee">Гарантия 3 года</div>
+  </td>
+  <td>
+    <div class="price">Оптимальный: 2 400</div>
+    <div class="guarantee">Плёнка 5л / оклейка 7л</div>
+  </td>
+  <td>
+    <div class="section-label">Оптимальный (2 400)</div>
+    <ul class="items">
+      <li>Капот целиком</li><li>Крылья целиком</li><li>Передний бампер</li><li>Передняя оптика</li>
+      <li>Часть крыши</li><li>Стойки</li><li>Зеркала</li><li>Внутренние пороги 4 шт</li>
+    </ul>
+    <div class="section-label">В подарок</div>
+    <ul class="items">
+      <li>Сетка в бампер</li><li>Антиманикюр</li><li>Загрузочная зона</li>
+      <li>Торцы дверей</li><li>Чернение шин + мойка</li>
+    </ul>
+  </td>
+  <td>Spectrol Premium<br>210 мкм</td>
+  <td>
+    <ul class="items">
+      <li>Мойка + сушка днища</li>
+      <li>Днище + арки + скрытые полости</li>
+      <li>Пороги, двери, крышка баг., капот, подкапотное</li>
+    </ul>
+    <div class="guarantee">Dinitrol 4941 + ML/LT</div>
+  </td>
+  <td>
+    <div class="no-reviews">нет отзывов</div>
+    <div class="rating-count">Я.Карты РБ</div>
+    <div class="price-note">сайт не работает</div>
+  </td>
+  <td class="location">Минск</td>
+  <td><span class="unk-icon">?</span></td>
+  <td><span class="yes-icon">✓</span> <span class="price-note">в подарок</span></td>
+</tr>
+
+<!-- detailing_service_minsk -->
+<tr>
+  <td>
+    <div class="center-name">detailing_service_minsk</div>
+    <div class="instagram">@detailing_service_minsk</div>
+    <span class="chip chip-new">новый</span>
+  </td>
+  <td>
+    <div class="price">1 450 ₽</div>
+    <div class="price-note">2–3 дня</div>
+  </td>
+  <td>
+    <div class="price">Передняя часть: 2 500</div>
+  </td>
+  <td>
+    <div class="section-label">Передняя часть (2 500)</div>
+    <ul class="items">
+      <li>Капот целиком</li><li>Бампер</li><li>Крылья целиком</li><li>Фары</li><li>Зеркала</li>
+      <li>Стойки лобового</li><li>Полоса на крышу</li><li>Зона под ручками (4 шт)</li>
+      <li>Канты дверей (4 шт)</li><li>Внутренние пороги (4 шт)</li><li>Зона выгрузки</li>
+      <li>Разборка/сборка включена</li>
+    </ul>
+  </td>
+  <td><span class="unk-icon">не указана</span></td>
+  <td>
+    <ul class="items">
+      <li>Демонтаж: расширители арок, накладки дверей, пластиковые пороги, локеры, защиты днища, глушителя, термоэкраны, бак (при необходимости), задний бампер</li>
+      <li>Мойка + сушка + укрытие подвески, блоков, проводки</li>
+      <li>Арки, днище, скрытые полости, пороги, лонжероны, подрамники, крылья изнутри, двери, капот, багажник, задний фартух, посадочные ступиц</li>
+    </ul>
+    <div class="guarantee">Составы не указаны</div>
+  </td>
+  <td>
+    <div class="rating-score">—</div>
+    <div class="rating-count">нет данных</div>
+  </td>
+  <td class="location">Минск</td>
+  <td><span class="unk-icon">?</span></td>
+  <td><span class="unk-icon">?</span></td>
+</tr>
+
+<!-- cartel_detailing_minsk -->
+<tr>
+  <td>
+    <div class="center-name">cartel_detailing_minsk</div>
+    <div class="instagram">@cartel_detailing_minsk</div>
+    <span class="chip chip-new">новый</span>
+  </td>
+  <td>
+    <div class="price">1 500 ₽</div>
+    <div class="price-combo">1 300 при комплексе с оклейкой</div>
+    <div class="price-note">3 дня</div>
+    <div class="guarantee">Фотоотчёт 15–20 до / 20–30 после</div>
+  </td>
+  <td>
+    <div class="price">Базовый: 1 500</div>
+    <div class="price">Стандарт: 1 800</div>
+    <div class="price">Премиум: 2 800</div>
+    <div class="guarantee">10 лет гарантия на плёнку</div>
+    <div class="price-note">Полный пакет документов для страховой</div>
+  </td>
+  <td>
+    <div class="section-label">Базовый (1 500)</div>
+    <ul class="items">
+      <li>Капот целиком</li><li>Часть крыльев</li><li>Фары</li><li>Стойки лобового</li>
+      <li>Полоса на крышу</li><li>Внутренние пороги</li><li>Зона под ручками</li><li>Канты дверей</li>
+    </ul>
+    <div class="section-label">Стандарт (1 800)</div>
+    <ul class="items">
+      <li>Капот целиком</li><li>Крылья целиком</li><li>Оптика + ПТФ</li>
+      <li>Стойки лобового</li><li>Полоса на крышу</li><li>Внутренние пороги</li>
+      <li>Канты дверей + зона под ручками</li><li>Зона выгрузки</li>
+    </ul>
+    <div class="section-label">Премиум (2 800)</div>
+    <ul class="items">
+      <li>+ Передний бампер</li><li>+ Зеркала</li>
+    </ul>
+    <div class="section-label">Подарок к каждому пакету</div>
+    <ul class="items"><li>Антидождь</li><li>Кварцевый гидрофобный состав</li></ul>
+  </td>
+  <td>Spectroll Premium<br><span class="guarantee">10 лет гарантия</span></td>
+  <td>
+    <ul class="items">
+      <li>Демонтаж защит, подкрылков, расширителей арок, термоэкранов, выхлопной</li>
+      <li>Полный комплекс: днище, арки, скрытые полости</li>
+      <li>Бонус: двери (4 шт), капот, крылья изнутри, крышка багажника</li>
+    </ul>
+    <div class="guarantee">Dinitrol 4941 + Dinitrol LT</div>
+  </td>
+  <td>
+    <div class="rating-score">—</div>
+    <div class="rating-count">нет данных</div>
+  </td>
+  <td class="location">Минск</td>
+  <td><span class="unk-icon">?</span></td>
+  <td><span class="unk-icon">?</span></td>
+</tr>
+
+<!-- cult_wash -->
+<tr>
+  <td>
+    <div class="center-name">cult_wash</div>
+    <div class="instagram">@cult_wash</div>
+    <span class="chip chip-new">новый</span>
+  </td>
+  <td>
+    <div class="price">1 300 ₽</div>
+    <div class="price-note">2–3 дня</div>
+  </td>
+  <td>
+    <div class="price">Премиум: 2 350</div>
+    <div class="price-note">Срок 2 дня</div>
+    <div class="guarantee">Работа 1г / плёнка 3г</div>
+  </td>
+  <td>
+    <div class="section-label">Премиум (2 350)</div>
+    <ul class="items">
+      <li>Капот целиком</li><li>Передний бампер</li><li>Крылья передние целиком</li><li>Фары</li>
+      <li>Стойки лобового стекла</li><li>Полоса над лобовым</li><li>Зеркала заднего вида</li>
+      <li>Зона под ручками</li><li>Канты дверей</li><li>Внутренние пороги</li><li>Зона погрузки</li>
+    </ul>
+    <div class="price-note">Мойка + арматурные работы включены в цену</div>
+  </td>
+  <td>SPECTROLL 210 мкм</td>
+  <td>
+    <ul class="items">
+      <li>Полный разбор</li>
+    </ul>
+    <div class="guarantee">Составы не указаны</div>
+  </td>
+  <td>
+    <div class="rating-score">—</div>
+    <div class="rating-count">нет данных</div>
+  </td>
+  <td class="location">Минск<br><span style="font-size:10px;color:var(--accent2)">Ближ. запись: 24.06</span></td>
+  <td><span class="unk-icon">?</span></td>
+  <td><span class="unk-icon">?</span></td>
+</tr>
+
+
+
+</tbody>
+</table>
+</div>
+
+<div style="margin-top:20px; font-size:11px; color:var(--muted); line-height:1.6;">
+  <strong style="color:var(--text-dim)">Примечания:</strong>
+  <ul style="margin-top:6px; padding-left:16px;">
+    <li>Рейтинги Яндекс Карт — требуют самостоятельной проверки (данные не предоставлены)</li>
+    <li>Наличие брызговиков и сеток у новых центров — уточнить напрямую</li>
+    <li>wrapex.by: отзывов нет, сайт не работает — повышенный риск</li>
+    <li>Цены указаны в BYN, актуальны на июнь 2026</li>
+  </ul>
+</div>
+
+</body>
+</html>
